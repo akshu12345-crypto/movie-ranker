@@ -1,0 +1,12 @@
+.movie-img-dashboard {
+  height: 200px !important;
+}
+.movie-info-dashboard {
+  min-height: 200px !important;
+  margin: auto auto auto 50px;
+}
+.addNew {
+  position: absolute;
+  right: 25px;
+  top: 4.5rem;
+}
