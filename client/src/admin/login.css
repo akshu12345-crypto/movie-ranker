@@ -1,0 +1,159 @@
+/* Login Page CSS */
+
+* {
+  font-family: "Poppins", sans-serif !important;
+  /* overflow: hidden; */
+  scroll-behavior: smooth;
+}
+
+.flex-container {
+  display: flex;
+  align-content: center;
+  justify-content: center;
+  align-items: center;
+  height: 100%;
+}
+
+.login-leftImg {
+  width: 10%;
+}
+
+.login-rightform {
+  width: 50%;
+}
+
+.logoDiv {
+  margin-bottom: 20px;
+}
+.datatable-container {
+  position: relative;
+}
+.loading-overlay {
+  position: absolute;
+  height: 100%;
+  top: 0;
+  width: 100%;
+  z-index: 1301;
+  background-color: rgba(252, 247, 247, 0.5);
+}
+.overlay-loader {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+}
+.uploadmediaplan-cell {
+  text-align: center;
+}
+.button-custom {
+  background-color: #7367f0 !important;
+  border-radius: 7px !important;
+  color: #fff !important;
+  width: 250px !important;
+}
+.LoginHello {
+  font-weight: bold;
+  font-size: 2.5625rem;
+  margin: 0;
+}
+
+.LoginText {
+  text-align: left;
+  font-size: 1rem;
+  margin: 0;
+}
+
+.css-binzgt {
+  margin-top: 30px !important;
+}
+
+.LoginDivText {
+  text-align: left;
+  width: 100%;
+}
+
+.LeftBarImage {
+  /* background-image: url(https://upload.wikimedia.org/wikipedia/en/7/7f/Academy_Award_trophy.png); */
+  background-position: center center;
+  background-size: cover;
+  background-repeat: no-repeat;
+  justify-content: center;
+  height: 100vh;
+  align-self: center;
+  display: flex;
+  align-items: center;
+}
+
+/* Leftbar collapse menu */
+.leftmenulist {
+  display: flex;
+  flex-wrap: wrap;
+  flex-direction: row;
+}
+
+.listmenubtn-leftbar {
+  padding: 8px 0px;
+}
+
+.mediaLogin-Img {
+  max-width: 95%;
+}
+
+.logoImg {
+  max-width: 45%;
+}
+
+.copyMedia {
+  position: absolute;
+  bottom: 0;
+  text-align: center;
+  width: 30%;
+}
+
+.copyMedia p {
+  padding: 0px 0px 20px 0px;
+}
+.errorms {
+  color: red;
+}
+/* CBForms Page */
+.cbformsdiv {
+  flex: 4 1;
+  padding: 0 1rem;
+}
+
+/* Forgot Password */
+
+.ForgotPass-div {
+  width: 50%;
+  padding: 5% 0%;
+}
+
+.Forgotdiv {
+  text-align: left;
+  width: 100%;
+  padding-top: 3%;
+}
+
+.ForgotPasstxt {
+  font-weight: bold;
+  font-size: 2.5625rem;
+  line-height: 1rem;
+}
+
+/* Reset Password */
+.ResetPassDiv {
+  width: 50%;
+  padding: 5% 0%;
+}
+
+.Resetdivtxt {
+  text-align: left;
+  width: 100%;
+  padding-top: 3%;
+}
+
+.ResetPasstxt {
+  font-weight: bold;
+  font-size: 2.5625rem;
+  line-height: 1rem;
+}

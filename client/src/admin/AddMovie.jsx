@@ -1,15 +1,21 @@
 import './AddMovie.css';
+import 'react-toastify/dist/ReactToastify.css';
 
-import { Button, TextField, Typography } from '@mui/material';
+import { Button, LinearProgress, TextField } from '@mui/material';
 import Dialog from '@mui/material/Dialog';
 import DialogActions from '@mui/material/DialogActions';
 import DialogContent from '@mui/material/DialogContent';
-import Rating from '@mui/material/Rating';
 import { styled } from '@mui/material/styles';
+import MUIDataTable from 'mui-datatables';
 import * as React from 'react';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { useLocation, useNavigate } from 'react-router-dom';
+import { toast, ToastContainer } from 'react-toastify';
+
+import { addMovie } from '../adapter/adminAdapter';
+import { movieList } from '../adapter/clientAdapter';
+import { baseUrl } from '../variables/variables';
 
 const BootstrapDialog = styled(Dialog)(({ theme }) => ({
   "& .MuiDialogContent-root": {
@@ -24,7 +30,21 @@ export default function Home() {
   let location = useLocation();
   var navigate = useNavigate();
   const [open, setOpen] = React.useState(false);
-
+  const [movies, setMovies] = useState([]);
+  const [loading, setLoading] = useState(false);
+  useEffect(() => {
+    setLoading(true);
+    const response = movieList();
+    response.then(function (result) {
+      setLoading(false);
+      if (result.success === true) {
+        console.log(result.data);
+        setMovies(result.data);
+      } else {
+        toast.error("failed to load Movies");
+      }
+    });
+  }, []);
   const handleClickOpen = () => {
     setOpen(true);
   };
@@ -35,79 +55,116 @@ export default function Home() {
   const {
     register,
     handleSubmit,
+    reset,
     control,
     getValues,
     formState: { errors },
   } = useForm({});
 
-  const [star, setStar] = React.useState(1);
   const onSubmit = (data) => {
-    console.log(data, star);
+    setLoading(true);
+    const response = addMovie({
+      movie_name: data.movie_name,
+      movie_details: data.movie_details,
+      movie_poster: data.movie_poster,
+    });
+    response.then(function (result) {
+      setLoading(false);
+      if (result.success === true) {
+        toast.success(result.message);
+        const response = movieList();
+        response.then(function (result) {
+          setLoading(false);
+          if (result.success === true) {
+            console.log(result.data);
+            setMovies(result.data);
+          } else {
+            toast.error("failed to load Movies");
+          }
+        });
+      } else {
+        toast.error(result.message);
+      }
+      reset();
+    });
     handleClose();
   };
+
+  const columns = [
+    {
+      name: "movie_poster",
+      label: "ID",
+      width: 100,
+      options: {
+        filter: true,
+        customBodyRender: (value) => {
+          return (
+            <>
+              <img
+                src={baseUrl + value}
+                style={{ width: "85px", borderRadius: "14px" }}
+              />
+            </>
+          );
+        },
+      },
+    },
+    {
+      name: "movie_name",
+      label: "MOVIE NAME",
+      width: 400,
+    },
+    {
+      name: "movie_details",
+      label: "MOVIE DETAIL",
+      width: 200,
+    },
+    {
+      name: "movie_rating",
+      label: "RATING",
+      width: 200,
+    },
+  ];
+
+  const options = {
+    serverSide: true,
+    onTableChange: (action, tableState) => {
+      this.xhrRequest("my.api.com/tableData", (result) => {
+        this.setState({ data: result });
+      });
+    },
+  };
+
   return (
-    <div
-      className="home-container"
-      style={{ marginTop: "2.5rem", justifyContent: "flex-start" }}>
-      <div
-        sx={{ width: "100%", maxWidth: 360, bgcolor: "background.paper" }}
-        className="list">
-        <div className="list-item">
-          <img
-            className="movie-img movie-img-dashboard"
-            src="https://i.gadgets360cdn.com/products/large/dune-1200x1779-1633607256036.jpg"
-          />
-          <div className="movie-info movie-info-dashboard">
-            <p className="item-title" style={{ fontSize: "20px" }}>
-              Sandra Adams
-            </p>
-            <p className="item-discription">
-              Lorem ipsum dolor sit amet, consectetaur adipisicing elit, sed do
-              eiusmod tempor incididunt ut labore et dolore magna aliqua.
-            </p>
-            {/* <p className="rating-text"></p> */}
+    <div className="movie-record">
+      <p style={{ display: "none" }}>{baseUrl}</p>
+      <Button
+        variant="contained"
+        className="rating-text"
+        onClick={handleClickOpen}
+        style={{ margin: "5px 0 15px 0" }}>
+        Add new movie
+      </Button>
+      <ToastContainer />
 
-            {/* <Rating
-              name="read-only"
-              className="stars-container"
-              value={4}
-              readOnly
-            /> */}
-          </div>
-        </div>
-        <div className="list-item">
-          <img
-            className="movie-img movie-img-dashboard"
-            src="https://i.gadgets360cdn.com/products/large/dune-1200x1779-1633607256036.jpg"
-          />
-          <div className="movie-info movie-info-dashboard">
-            <p className="item-title" style={{ fontSize: "20px" }}>
-              Sandra Adams
-            </p>
-            <p className="item-discription">
-              Lorem ipsum dolor sit amet, consectetaur adipisicing elit, sed do
-              eiusmod tempor incididunt ut labore et dolore magna aliqua.
-            </p>
-            {/* <p className="rating-text"></p> */}
-
-            <Rating
-              name="read-only"
-              className="stars-container"
-              value={4}
-              readOnly
-            />
-          </div>
-        </div>
-      </div>
-
+      {loading ? (
+        <LinearProgress />
+      ) : (
+        <MUIDataTable
+          data={movies}
+          columns={columns}
+          options={{
+            rowsPerPage: 10,
+            rowsPerPageOptions: [10, 20, 50],
+            jumpToPage: true,
+            options,
+            search: true,
+            selectableRows: "none",
+            selectableRowsOnClick: false,
+          }}
+        />
+      )}
       <div className="addNew">
-        <Button
-          variant="contained"
-          className="rating-text"
-          onClick={handleClickOpen}
-          style={{ margin: "5px 0 15px 0" }}>
-          Add new movie
-        </Button>
         <BootstrapDialog
           onClose={handleClose}
           aria-labelledby="customized-dialog-title"
@@ -118,49 +175,65 @@ export default function Home() {
                 <TextField
                   fullWidth
                   id="outlined-basic"
-                  label="Name"
+                  label="Movie Name"
                   variant="outlined"
                   type="text"
-                  name="Name"
-                  {...register("Name", {
+                  name="movie_name"
+                  {...register("movie_name", {
                     required: {
                       value: true,
-                      message: "User name is required!",
+                      message: "Movie name is required!",
                     },
                     pattern: {
-                      value: /^.{1,50}$/,
-                      message: "Max 50 characters",
+                      value: /^.{3,50}$/,
+                      message: "Min 3 Max 50 characters",
                     },
                   })}
-                  error={Boolean(errors?.Name ? true : false)}
-                  helperText={errors?.Name?.message}
+                  error={Boolean(errors?.movie_name ? true : false)}
+                  helperText={errors?.movie_name?.message}
                 />
               </div>
               <div className="formItem">
                 <TextField
                   fullWidth
                   id="outlined-basic"
-                  label="Detail Review"
+                  label="Movie Details"
                   variant="outlined"
                   type="text"
-                  name="detailReview"
+                  name="movie_details"
                   multiline
                   rows={4}
-                  {...register("detailReview", {
+                  {...register("movie_details", {
                     required: {
                       value: true,
-                      message: "Detail Review is required!",
+                      message: "Movie Details required!",
                     },
                     pattern: {
-                      value: /^.{1,500}$/,
-                      message: "Max 500 characters",
+                      value: /^.{3,500}$/,
+                      message: "Min 3 Max 500 characters",
                     },
                   })}
-                  error={Boolean(errors.detailReview)}
-                  helperText={errors.detailReview?.message}
+                  error={Boolean(errors.movie_details)}
+                  helperText={errors.movie_details?.message}
                 />
               </div>
-              <div className="formItem">
+              Movie poster
+              <br />
+              <input
+                lable="movie_poster"
+                name="movie_poster"
+                type="file"
+                accept="image/png, image/jpg"
+                {...register("movie_poster", {
+                  required: {
+                    value: true,
+                    message: "Movie poster required!",
+                  },
+                })}
+                // error={Boolean(errors.movie_poster)}
+                // helpertext={errors.movie_poster?.message}
+              />
+              {/* <div className="formItem">
                 <Typography component="legend">Rate this movie</Typography>
                 <Rating
                   name="simple-controlled"
@@ -169,9 +242,9 @@ export default function Home() {
                     setStar(newStar);
                   }}
                 />
-              </div>
+              </div> */}
               <DialogActions>
-                <Button type="submit"> Submit Review</Button>
+                <Button type="submit"> Add Movie</Button>
               </DialogActions>
             </form>
           </DialogContent>

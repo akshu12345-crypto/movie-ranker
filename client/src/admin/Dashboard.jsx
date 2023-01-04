@@ -2,9 +2,9 @@ import './dashboard.css';
 import './leftbar.css';
 
 import DashboardIcon from '@mui/icons-material/Dashboard';
+import Logout from '@mui/icons-material/Logout';
 import MenuIcon from '@mui/icons-material/Menu';
-import SaveAltIcon from '@mui/icons-material/SaveAlt';
-import { List, ListItem, ListItemButton, ListItemIcon, ListItemText } from '@mui/material';
+import { List, ListItem, ListItemButton, ListItemIcon, ListItemText, MenuItem } from '@mui/material';
 import MuiAppBar from '@mui/material/AppBar';
 import Box from '@mui/material/Box';
 import CssBaseline from '@mui/material/CssBaseline';
@@ -14,7 +14,7 @@ import IconButton from '@mui/material/IconButton';
 import { styled } from '@mui/material/styles';
 import Toolbar from '@mui/material/Toolbar';
 import React from 'react';
-import { NavLink, Route, Routes } from 'react-router-dom';
+import { NavLink, Route, Routes, useNavigate } from 'react-router-dom';
 
 import AddMovie from './AddMovie';
 
@@ -94,7 +94,8 @@ export default function Dashboard() {
   const [openL2, setopenL2] = React.useState(false);
 
   const [openL3, setopenL3] = React.useState(false);
-  console.log();
+
+  const navigate = useNavigate();
   return (
     <Box sx={{ display: "-webkit-box" }}>
       <CssBaseline />
@@ -116,6 +117,17 @@ export default function Dashboard() {
             }}>
             <MenuIcon style={{ color: "#000" }} />
           </IconButton>
+          <MenuItem
+            style={{ color: "rgba(0, 0, 0, 0.54)" }}
+            onClick={() => {
+              localStorage.clear();
+              navigate("/");
+            }}>
+            <ListItemIcon>
+              <Logout fontSize="small" />
+            </ListItemIcon>
+            Logout
+          </MenuItem>
         </Toolbar>
       </AppBar>
       <Drawer variant="permanent" style={{ border: "none" }} open={open}>
@@ -152,7 +164,7 @@ export default function Dashboard() {
             </NavLink>
           </ListItem>
         </List>
-
+        {/* 
         <List>
           <ListItem disablePadding sx={{ display: "block" }}>
             <NavLink to="download" className="nav-links">
@@ -177,7 +189,7 @@ export default function Dashboard() {
               </ListItemButton>
             </NavLink>
           </ListItem>
-        </List>
+        </List> */}
 
         <Divider style={{ margin: "0.5rem 0 1rem 0" }} />
       </Drawer>

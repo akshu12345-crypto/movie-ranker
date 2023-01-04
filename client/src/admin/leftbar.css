@@ -84,6 +84,13 @@ li {
   -ms-overflow-style: none; /* IE and Edge */
   scrollbar-width: none; /* Firefox */
 }
+.movie-record {
+  margin-top: 5rem;
+}
+[aria-label="Download CSV"] :first-child {
+  color: rgb(27, 187, 27);
+  font-size: 60px !important;
+}
 /* media Query  */
 
 @media only screen and (max-width: 767px) {
