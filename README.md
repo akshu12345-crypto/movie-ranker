@@ -3,7 +3,10 @@
 After clone
 Paste this command in terminal
 
-cd movie-ranker/<br />
+```cd movie-ranker/
+
+```
+
 npm install<br />
 node index.js<br />
 
@@ -13,4 +16,4 @@ cd client/<br />
 cd npm install<br />
 cd mpm start<br />
 
-### Mongodb Live
+### MongoDB Atlas cloud database used
