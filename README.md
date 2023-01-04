@@ -8,13 +8,38 @@ cd movie-ranker/
 
 ```
 
-npm install<br />
-node index.js<br />
+```
+
+npm install
+
+```
+
+```
+
+node index.js
+
+```
 
 ## Front-end REACTJS
 
-cd client/<br />
-cd npm install<br />
-cd mpm start<br />
+```
+
+cd client/
+
+```
+
+```
+
+cd npm install
+
+```
+
+```
+
+cd npm start
+
+```
 
 ### MongoDB Atlas cloud database used
+
+pratapkhandekar99@gmail.com : 9370429142

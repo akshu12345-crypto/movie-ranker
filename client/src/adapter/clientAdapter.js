@@ -28,7 +28,6 @@ const addReviev = async (data) => {
     user_detail_review: data.user_detail_review,
     user_rating: data.user_rating,
   };
-  console.log(request);
   const settings = {
     method: "POST",
     headers: {

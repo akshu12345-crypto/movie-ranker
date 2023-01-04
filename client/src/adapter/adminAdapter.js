@@ -51,7 +51,6 @@ const addMovie = async (data) => {
   formData.append("movie_name", data.movie_name);
   formData.append("movie_details", data.movie_details);
   formData.append("movie_poster", data.movie_poster[0]);
-  console.log(formData.getAll);
   const settings = {
     method: "POST",
     headers: {

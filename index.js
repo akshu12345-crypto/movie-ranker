@@ -13,25 +13,7 @@ app.use(fileUpload());
 app.use(express.static(path.join(__dirname, "src/media/posters")));
 
 app.use("/", routes);
-
-// mongoose.connect("mongodb://127.0.0.1:27017/movie-ranker", {
-//   useNewUrlParser: true,
-//   useUnifiedTopology: true,
-// });
-
-// () => {
-//   console.log("connected to DB");
-// };
-
-//user schema
-// const userSchema = new mongoose.Schema({
-//   name: String,
-//   email: String,
-//   password: String,
-// });
-// const users = new mongoose.model("users", userSchema);
 app.get("/", (req, res) => {
-  console.log("Person");
   res.end();
 });
 const PORT = process.env.PORT || 3030;
