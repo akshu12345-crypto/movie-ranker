@@ -3,14 +3,14 @@
 After clone
 Paste this command in terminal
 
-cd movie-ranker/
-npm install
-node index.js
+cd movie-ranker/<br />
+npm install<br />
+node index.js<br />
 
 ## Front-end REACTJS
 
-cd client/
-cd npm install
-cd mpm start
+cd client/<br />
+cd npm install<br />
+cd mpm start<br />
 
 ### Mongodb Live
