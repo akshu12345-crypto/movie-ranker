@@ -3,7 +3,8 @@
 After clone
 Paste this command in terminal
 
-```cd movie-ranker/
+```
+cd movie-ranker/
 
 ```
 
