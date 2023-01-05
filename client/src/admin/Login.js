@@ -42,7 +42,7 @@ const SignIn = () => {
     const data = new FormData(event.currentTarget);
     const info = adminLogin({
       email: data.get("email"),
-      password: data.get("password"),
+      password: btoa(data.get("password")),
     });
     info.then(function (result) {
       if (result.success === true) {

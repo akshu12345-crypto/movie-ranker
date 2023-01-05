@@ -22,7 +22,7 @@ function login(req, res) {
   const { email, password } = req.body;
   users.findOne({ email: email }, function (err, person) {
     if (person) {
-      if (password === atob(person.password)) {
+      if (password === person.password) {
         return res.status(200).json({
           success: true,
           message: "loged in successfully",
