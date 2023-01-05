@@ -13,16 +13,13 @@ app.use(fileUpload());
 app.use(express.static(path.join(__dirname, "src/media/posters")));
 
 app.use("/", routes);
-app.get("/", (req, res) => {
-  res.end();
+app.use(express.static(path.join(__dirname, "client/build")));
+
+app.get("/", function (req, res) {
+  res.sendFile(path.join(__dirname, "client/build", "index.html"));
 });
 const PORT = process.env.PORT || 3030;
-
-// your code
 
 app.listen(PORT, () => {
   console.log(`server started on port ${PORT}`);
 });
-// app.listen(6969, () => {
-//   //   console.log("started");
-// });

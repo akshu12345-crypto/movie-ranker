@@ -60,22 +60,3 @@ router.post(
 router.post("/updateRating", user.updateRating);
 
 module.exports = router;
-// app.post("/Login", );
-// app.post("/AddMovie", (req, res) => {
-//   console.log(req.body);
-//   const { name, email, password } = req.body;
-//   users.findOne({ email: email }, (err, user) => {
-//     if (user) {
-//       res.send({ message: "user already exist" });
-//     } else {
-//       const user = new users({ name, email, password });
-//       user.save((err) => {
-//         if (err) {
-//           res.send(err);
-//         } else {
-//           res.send({ message: "sucessfull" });
-//         }
-//       });
-//     }
-//   });
-// });
