@@ -5,6 +5,7 @@ const fs = require("fs");
 const path = require("path");
 
 function login(req, res) {
+  console.log(req.body);
   const errors = validationResult(req);
   if (!errors.isEmpty()) {
     return res.status(400).json({
@@ -21,6 +22,7 @@ function login(req, res) {
 
   const { email, password } = req.body;
   users.findOne({ email: email }, function (err, person) {
+    console.log(person);
     if (person) {
       if (password === person.password) {
         return res.status(200).json({

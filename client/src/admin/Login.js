@@ -44,6 +44,10 @@ const SignIn = () => {
       email: data.get("email"),
       password: btoa(data.get("password")),
     });
+    console.log({
+      email: data.get("email"),
+      password: btoa(data.get("password")),
+    });
     info.then(function (result) {
       if (result.success === true) {
         location.state ? navigate(location.state) : navigate("/dashboard");
