@@ -45,7 +45,6 @@ const SignIn = () => {
       password: data.get("password"),
     });
     info.then(function (result) {
-      console.log(result);
       if (result.success === true) {
         location.state ? navigate(location.state) : navigate("/dashboard");
       } else {

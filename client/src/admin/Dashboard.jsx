@@ -90,11 +90,6 @@ export default function Dashboard() {
     window.screen.availWidth < "730" ? false : true
   );
 
-  const [openL1, setOpenL1] = React.useState(false);
-  const [openL2, setopenL2] = React.useState(false);
-
-  const [openL3, setopenL3] = React.useState(false);
-
   const navigate = useNavigate();
   return (
     <Box sx={{ display: "-webkit-box" }}>

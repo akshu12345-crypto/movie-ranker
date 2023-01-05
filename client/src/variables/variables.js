@@ -1,2 +1,2 @@
-const baseUrl = "http://localhost:3030/";
+const baseUrl = "https://movieranker.onrender.com/";
 export { baseUrl };

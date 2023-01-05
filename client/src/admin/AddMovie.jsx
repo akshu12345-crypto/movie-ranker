@@ -10,7 +10,6 @@ import MUIDataTable from 'mui-datatables';
 import * as React from 'react';
 import { useEffect, useState } from 'react';
 import { useForm } from 'react-hook-form';
-import { useLocation, useNavigate } from 'react-router-dom';
 import { toast, ToastContainer } from 'react-toastify';
 
 import { addMovie } from '../adapter/adminAdapter';
@@ -27,8 +26,6 @@ const BootstrapDialog = styled(Dialog)(({ theme }) => ({
 }));
 // or
 export default function Home() {
-  let location = useLocation();
-  var navigate = useNavigate();
   const [open, setOpen] = React.useState(false);
   const [movies, setMovies] = useState([]);
   const [loading, setLoading] = useState(false);
@@ -38,7 +35,6 @@ export default function Home() {
     response.then(function (result) {
       setLoading(false);
       if (result.success === true) {
-        console.log(result.data);
         setMovies(result.data);
       } else {
         toast.error("failed to load Movies");
@@ -56,8 +52,6 @@ export default function Home() {
     register,
     handleSubmit,
     reset,
-    control,
-    getValues,
     formState: { errors },
   } = useForm({});
 
@@ -76,7 +70,6 @@ export default function Home() {
         response.then(function (result) {
           setLoading(false);
           if (result.success === true) {
-            console.log(result.data);
             setMovies(result.data);
           } else {
             toast.error("failed to load Movies");
@@ -103,6 +96,7 @@ export default function Home() {
               <img
                 src={baseUrl + value}
                 style={{ width: "85px", borderRadius: "14px" }}
+                alt=""
               />
             </>
           );

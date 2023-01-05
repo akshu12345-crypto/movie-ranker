@@ -11,7 +11,7 @@ import { styled } from '@mui/material/styles';
 import * as React from 'react';
 import { useEffect, useState } from 'react';
 import { useForm } from 'react-hook-form';
-import { useLocation, useNavigate } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import { toast, ToastContainer } from 'react-toastify';
 
 import { addReviev, movieList } from '../adapter/clientAdapter';
@@ -36,7 +36,6 @@ export default function Home() {
     response.then(function (result) {
       setLoading(false);
       if (result.success === true) {
-        console.log(result.data);
         setMovies(result.data);
       } else {
         toast.error("failed to load Movies");
@@ -44,12 +43,10 @@ export default function Home() {
     });
   }, []);
 
-  let location = useLocation();
   var navigate = useNavigate();
   const [open, setOpen] = React.useState(false);
 
   const handleClickOpen = (id) => {
-    console.log(id);
     setMovieToRate(id);
     setOpen(true);
   };
@@ -61,8 +58,6 @@ export default function Home() {
     register,
     handleSubmit,
     reset,
-    control,
-    getValues,
     formState: { errors },
   } = useForm({});
 
