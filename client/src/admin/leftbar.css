@@ -84,7 +84,7 @@ li {
   -ms-overflow-style: none; /* IE and Edge */
   scrollbar-width: none; /* Firefox */
 }
-.movie-record {
+.task-record {
   margin-top: 5rem;
 }
 [aria-label="Download CSV"] :first-child {

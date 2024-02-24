@@ -1,5 +1,5 @@
 const { users } = require("../models/userModel.js");
-const { movies } = require("../models/moviesModel.js");
+const { tasks } = require("../models/tasksModel.js");
 const { validationResult } = require("express-validator");
 const fs = require("fs");
 const path = require("path");
@@ -46,9 +46,7 @@ function login(req, res) {
     }
   });
 }
-
-function addMovies(req, res) {
-  // Finds the validation errors in this request and wraps them in an object with handy functions
+function addTasks(req, res) {
   const errors = validationResult(req);
   if (!errors.isEmpty()) {
     return res.status(400).json({
@@ -62,80 +60,104 @@ function addMovies(req, res) {
       data: {},
     });
   }
-  if (req.files) {
-    if (!req.files.movie_poster) {
-      return res.status(400).json({
-        success: false,
-        message: "movie_poster file required",
-        data: {},
-      });
-    }
-  } else {
-    return res.status(400).json({
-      success: false,
-      message: "movie_poster file required",
-      data: {},
-    });
-  }
-  /* File validation for PNG and JPG */
-  if (
-    req.files.movie_poster.name.split(".").pop() !== "png" &&
-    req.files.movie_poster.name.split(".").pop() !== "jpg"
-  ) {
-    return res.status(400).json({
-      success: false,
-      message: "movie_poster file must be in png or jpg format",
-      data: {},
-    });
-  }
-  /* SAVE FILE */
-  let fileName =
-    Math.floor(Math.random() * 10000) +
-    "." +
-    req.files.movie_poster.name.split(".").pop();
-  fs.writeFile(
-    path.join(__dirname, "../media/posters/") + fileName,
-    req.files.movie_poster.data,
-    function (err) {
-      if (err) throw err;
-    }
-  );
-  /* INSERT MOVIE */
-  movies
+
+  tasks
     .create({
-      movie_name: req.body.movie_name,
-      movie_poster: fileName,
-      movie_details: req.body.movie_details,
-      movie_rating: 0,
+      task_name: req.body.task_name,
+      task_details: req.body.task_details,
+      completed: false,
+      due_date: req.body.due_date,
     })
-    .then((movies) =>
+    .then(() =>
       res.json({
         success: true,
-        message: "Movie added Successfully",
+        message: "Task added Successfully",
         data: {},
       })
-    );
+    )
+    .catch((err) => {
+      res.status(500).json({
+        success: false,
+        message: "Error adding task",
+        data: {},
+      });
+    });
 }
 
-function movieListing(req, res) {
-  movies.find({}, function (err, movies) {
-    if (movies) {
+function taskListing(req, res) {
+  tasks.find({}, function (err, tasks) {
+    if (tasks) {
       res.json({
         success: true,
-        message: "All movies loaded Successfully",
-        data: movies,
+        message: "All tasks loaded Successfully",
+        data: tasks,
       });
     } else {
       res.json({
         success: false,
-        message: "fail to load movies",
+        message: "fail to load tasks",
         data: {},
       });
     }
   });
 }
+
+function editTask(req, res) {
+  const taskId = req.params.id;
+  const updatedTaskData = {
+    task_name: req.body.task_name,
+    task_details: req.body.task_details,
+    completed: req.body.completed,
+    due_date: req.body.due_date,
+  };
+  const updatedTask = tasks.findByIdAndUpdate(taskId, updatedTaskData, {
+    new: true,
+  });
+  if (updatedTask) {
+    return res.status(200).json({
+      success: true,
+      message: "Task updated successfully",
+      data: {},
+    });
+  } else {
+    return res.status(500).json({
+      success: false,
+      message: "Internal server error",
+      data: {},
+    });
+  }
+}
+
+function deleteTask(req, res) {
+  const taskId = req.params.id;
+
+  tasks.findByIdAndDelete(taskId, function (err, task) {
+    if (err) {
+      return res.status(500).json({
+        success: false,
+        message: "Internal server error",
+        data: {},
+      });
+    }
+    if (!task) {
+      return res.status(404).json({
+        success: false,
+        message: "Task not found",
+        data: {},
+      });
+    }
+    res.json({
+      success: true,
+      message: "Task deleted successfully",
+      data: {},
+    });
+  });
+}
+
 module.exports = {
   login,
-  addMovies,
-  movieListing,
+  addTasks,
+  editTask,
+  deleteTask,
+  taskListing,
 };

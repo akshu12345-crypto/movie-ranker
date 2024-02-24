@@ -1,6 +1,6 @@
-import { baseUrl } from '../variables/variables';
+import { baseUrl } from "../variables/variables";
 
-const movieList = async (id) => {
+const taskList = async (id) => {
   var Suser = JSON.parse(localStorage.getItem("userIn"));
   const settings = {
     method: "GET",
@@ -11,7 +11,7 @@ const movieList = async (id) => {
     },
   };
   try {
-    const fetchResponse = await fetch(baseUrl + `api/movieListing`, settings);
+    const fetchResponse = await fetch(baseUrl + `api/taskListing`, settings);
     const datahttp = await fetchResponse.json();
     return datahttp;
   } catch (e) {
@@ -42,32 +42,28 @@ const adminLogin = async (request) => {
     return e;
   }
 };
-
-const addMovie = async (data) => {
-  //   var Suser = JSON.parse(localStorage.getItem("userIn"));
-
-  const formData = new FormData();
-
-  formData.append("movie_name", data.movie_name);
-  formData.append("movie_details", data.movie_details);
-  formData.append("movie_poster", data.movie_poster[0]);
-  const settings = {
-    method: "POST",
-    headers: {
-      //   Authorization: "Bearer " + Suser.token + "",
-      // Accept: "application/json",
-      // "Content-Type": "application/json",
-    },
-    body: formData,
-  };
+const addTask = async (data) => {
   try {
-    const fetchResponse = await fetch(baseUrl + `api/add-movies`, settings);
+    const response = await fetch(baseUrl + `api/add-tasks`, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        task_name: data.task_name,
+        task_details: data.task_details,
+        due_date: data.due_date,
+      }),
+    });
 
-    const datahttp = await fetchResponse.json();
-    return datahttp;
-  } catch (e) {
-    //   toast.error(" " + e.message + " from Server")
-    return e;
+    const responseData = await response.json();
+
+    return responseData;
+  } catch (error) {
+    // Handle error
+    console.error("Error adding task:", error);
+    return { success: false, message: "Failed to add task" };
   }
 };
-export { movieList, adminLogin, addMovie };
+
+export { taskList, adminLogin, addTask };

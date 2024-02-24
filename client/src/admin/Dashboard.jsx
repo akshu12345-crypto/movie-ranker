@@ -16,7 +16,7 @@ import Toolbar from '@mui/material/Toolbar';
 import React from 'react';
 import { NavLink, Route, Routes, useNavigate } from 'react-router-dom';
 
-import AddMovie from './AddMovie';
+import AddTask from './AddTask';
 
 const drawerWidth = 240;
 
@@ -190,7 +190,7 @@ export default function Dashboard() {
       </Drawer>
       <Box component="main" sx={{ flexGrow: 1, p: 3 }}>
         <Routes>
-          <Route path="/" element={<AddMovie />} />
+          <Route path="/" element={<AddTask />} />
         </Routes>
       </Box>
     </Box>

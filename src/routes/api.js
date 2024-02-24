@@ -1,53 +1,28 @@
-//routes
-
 const express = require("express");
 const router = express.Router();
 const admin = require("../controllers/adminController.js");
-const user = require("../controllers/userController.js");
 
 const { check } = require("express-validator");
 
-/* GET programming languages. */
 router.post(
-  "/api/add-movies",
-  check("movie_name").isLength({ min: 3, max: 50 }).withMessage({
+  "/api/add-tasks",
+  check("task_name").isLength({ min: 3, max: 50 }).withMessage({
     message: "required minimum: 3 characters; maximum: 50 characters",
     errorCode: 1,
   }),
-  check("movie_details").isLength({ min: 3, max: 500 }).withMessage({
+  check("task_details").isLength({ min: 3, max: 500 }).withMessage({
     message: "required minimum: 3 characters; maximum: 500 characters",
     errorCode: 1,
   }),
-  admin.addMovies
+  admin.addTasks
 );
 
-router.get("/api/movieListing", admin.movieListing);
-
-router.post(
-  "/api/add-review",
-  check("movie_id").notEmpty().withMessage({
-    message: "Movie not selected",
-    errorCode: 1,
-  }),
-  check("user_name").isLength({ min: 3, max: 50 }).withMessage({
-    message: "required minimum: 3 characters; maximum: 50 characters",
-    errorCode: 1,
-  }),
-  check("user_detail_review").isLength({ min: 3, max: 500 }).withMessage({
-    message: "required minimum: 3 characters; maximum: 500 characters",
-    errorCode: 1,
-  }),
-  check("user_rating").notEmpty().withMessage({
-    message: "A minimum 1 star is necessary",
-    errorCode: 1,
-  }),
-  user.addReviev
-);
+router.get("/api/taskListing", admin.taskListing);
 
 router.post(
   "/api/login",
   check("email").notEmpty().withMessage({
-    message: "Email ID equired",
+    message: "Email ID required",
     errorCode: 1,
   }),
   check("password").notEmpty().withMessage({
@@ -57,6 +32,21 @@ router.post(
   admin.login
 );
 
-router.post("/updateRating", user.updateRating);
+router.put(
+  "/api/edit-task/:id",
+  [
+    check("task_name").isLength({ min: 3, max: 50 }).withMessage({
+      message: "required minimum: 3 characters; maximum: 50 characters",
+      errorCode: 1,
+    }),
+    check("task_details").isLength({ min: 3, max: 500 }).withMessage({
+      message: "required minimum: 3 characters; maximum: 500 characters",
+      errorCode: 1,
+    }),
+  ],
+  admin.editTask
+);
+
+router.delete("/api/delete-task/:id", admin.deleteTask);
 
 module.exports = router;

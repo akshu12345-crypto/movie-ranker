@@ -1,6 +1,6 @@
-import { baseUrl } from '../variables/variables';
+import { baseUrl } from "../variables/variables";
 
-const movieList = async () => {
+const taskList = async () => {
   //   var Suser = JSON.parse(localStorage.getItem("userIn"));
   const settings = {
     method: "GET",
@@ -11,7 +11,7 @@ const movieList = async () => {
     },
   };
   try {
-    const fetchResponse = await fetch(baseUrl + `api/movieListing`, settings);
+    const fetchResponse = await fetch(baseUrl + `api/taskListing`, settings);
 
     const datahttp = await fetchResponse.json();
     return datahttp;
@@ -23,7 +23,7 @@ const movieList = async () => {
 const addReviev = async (data) => {
   //   var Suser = JSON.parse(localStorage.getItem("userIn"));
   let request = {
-    movie_id: data.movie_id,
+    task_id: data.task_id,
     user_name: data.user_name,
     user_detail_review: data.user_detail_review,
     user_rating: data.user_rating,
@@ -48,4 +48,4 @@ const addReviev = async (data) => {
   }
 };
 
-export { movieList, addReviev };
+export { taskList, addReviev };
